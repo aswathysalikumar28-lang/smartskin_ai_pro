@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Elegance in Every Habit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #fdfaf7;
+            color: #333;
+            padding-top:60px;
+        }
+
+        section{
+            padding:80px 20px;
+        }
+
+        /* HERO SECTION */
+        .hero {
+           /* background-image: url("{{ url_for('static', filename='images/hero-bg.jpeg') }}");*/
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height:100vh;
+            width: 100%;
+            position: relative;
+            z-index: 0;
+        }
+
+        .hero-overlay {
+            background-color: rgba(0,0,0,0.35);
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            max-width: 900px;
+            margin: auto;
+            padding-top: 150px;
+        }
+
+        .hero-content h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .hero-content p {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+
+        .hero-content a {
+            background-color: #ff8c6a;
+            color: white;
+            padding: 14px 22px;
+            font-size: 18px;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: 0.3s;
+            display: inline-block;
+            margin: 8px;
+        }
+
+        .hero-content a:hover {
+            background-color: #ff5a3c;
+        }
+
+        /* DASHBOARD OVER HERO */
+        .dashboard-overlay {
+            position: absolute;
+            top: 60px; /* below topbar */
+            left: 240px; /* beside sidebar */
+            width: calc(100% - 240px);
+            padding: 40px;
+            background: rgba(255,255,255,0); /* fully transparent background */
+            z-index: 3;
+        }
+
+        .dashboard-cards{
+            display:flex;
+            flex-wrap:wrap;
+            gap:25px;
+        }
+
+        .dashboard-card{
+            width:220px;
+            background:white;
+            border-radius:12px;
+            padding:25px;
+            box-shadow:0 10px 25px rgba(0,0,0,0.08);
+            transition:0.3s;
+            text-align:center;
+        }
+
+        .dashboard-card:hover{
+            transform:translateY(-5px);
+            box-shadow:0 15px 35px rgba(0,0,0,0.12);
+        }
+
+        .dashboard-card h3{
+            margin-bottom:10px;
+            font-size:18px;
+        }
+
+        .dashboard-card p{
+            font-size:14px;
+            color:#555;
+            margin-bottom:15px;
+        }
+
+        /* TOP NAVBAR */
+        .topbar{
+            position:fixed;
+            top:0;
+            left:0;
+            width:100%;
+            height:60px;
+            background:white;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:0 30px;
+            box-shadow:0 3px 10px rgba(0,0,0,0.1);
+            z-index:2000;
+        }
+
+        .logo{
+            font-weight:600;
+            font-size:18px;
+        }
+
+        .top-user{
+            font-size:15px;
+        }
+
+        /* SIDEBAR */
+        .sidebar{
+            position: fixed;
+            left: 0;
+            top:60px;
+            width: 220px;
+            height:calc(100vh - 60px);
+            background:#cfa89a;
+            padding-top:20px;
+            z-index:1000;
+            display:flex;
+            flex-direction:column;
+            justify-content:space-between;
+            overflow-y:auto;
+        }
+
+        .sidebar a{
+            display: block;
+            color: white;
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .sidebar a:hover{
+            background: #ff6a4d;
+        }
+
+        .sidebar a.active {
+    background: #ff5a3c;  /* highlighted background */
+    font-weight: 600;      /* bold text */
+}
+
+        /* USER PROFILE IN SIDEBAR */
+        .sidebar-user{
+            text-align:center;
+            color:white;
+            margin-bottom:20px;
+            padding-bottom:15px;
+            border-bottom:1px solid rgba(255,255,255,0.3);
+        }
+
+        .sidebar-user .avatar{
+            width:60px;
+            height:60px;
+            border-radius:50%;
+            background:#ff8c6a;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:24px;
+            margin:auto;
+            margin-bottom:8px;
+        }
+
+        .sidebar-user .name{
+            font-weight:600;
+            font-size:15px;
+        }
+
+        .sidebar-user .email{
+            font-size:12px;
+            opacity:0.8;
+        }
+
+        .sidebar-bottom{
+            margin-bottom:20px;
+        }
+
+        /* HOW IT WORKS SECTION */
+        .how-it-works{
+            padding:60px 20px;
+            text-align:center;
+            background:#fff5f2;
+        }
+
+        .how-it-works h2{
+            font-size:32px;
+            margin-bottom:40px;
+        }
+
+        .steps{
+            display:flex;
+            justify-content:center;
+            gap:40px;
+            flex-wrap:wrap;
+        }
+
+        .step{
+            max-width:250px;
+        }
+
+        .step h3{
+            margin-bottom:10px;
+            font-size:20px;
+        }
+
+        .step p{
+            font-size:15px;
+            color:#555;
+        }
+
+        /* FEATURES SECTION */
+        .features {
+            display: flex;
+            justify-content: space-around;
+            padding: 60px 20px;
+            background-color: #fff;
+            flex-wrap: wrap;
+            margin-left:0;
+        }
+
+        .feature {
+            text-align: center;
+            max-width: 250px;
+            margin: 20px;
+            background:white;
+            padding:25px;
+            border-radius:12px;
+            box-shadow:0 10px 25px rgba(0,0,0,0.08);
+            transition:0.3s;
+        }
+
+        .feature:hover{
+            transform:translateY(-5px);
+            box-shadow:0 15px 35px rgba(0,0,0,0.12);
+        }
+
+        .feature img {
+            width: 100px;
+            margin-bottom: 15px;
+        }
+
+        .feature h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .feature p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        /* ABOUT SECTION */
+        .about {
+            background:#fff5f2;
+            text-align:center;
+            padding:60px 20px;
+        }
+
+        .about h2{
+            margin-bottom:30px;
+        }
+
+        .about p{
+            max-width:700px;
+            margin:auto;
+            font-size:16px;
+            color:#555;
+        }
+
+        /* CONTACT SECTION */
+        .contact {
+            background:white;
+            text-align:center;
+            padding:60px 20px;
+        }
+
+        /* FOOTER */
+        footer {
+            margin-top:50px;
+            text-align:center;
+            font-size:14px;
+            color:#666;
+            padding:15px 0;
+            background:#f8f9fa;
+        }
+
+        footer a {
+            color:#17a2b8;
+            text-decoration:none;
+            margin-right:10px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 32px;
+            }
+            .hero-content p {
+                font-size: 16px;
+            }
+            .features {
+                flex-direction: column;
+                align-items: center;
+            }
+            .dashboard-overlay {
+                left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+            .topbar {
+                padding: 0 15px;
+            }
+            .sidebar {
+                width: 180px;
+            }
+        }
+.video-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+    </style>
+</head>
+<body><!-- TOP NAVBAR --><div class="topbar">
+    <div class="logo">Smart Skin AI</div>
+
+    <!-- ✅ ADDED: Top Right Links -->
+    <div class="top-links">
+        <a href="#resources">Resources</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+    </div>
+
+    {% if user %}
+    <div class="top-user">
+        {{ user|capitalize }}
+    </div>
+    {% endif %}
+</div><!-- SIDEBAR -->{% if user %}
+
+<div class="sidebar">
+    <div>
+        <div class="sidebar-user">
+            <div class="avatar">{{ user[0]|upper }}</div>
+            <div class="name">{{ user|capitalize }}</div>
+            <div class="email">{{ email }}</div>
+        </div>
+       <a href="#dashboard" class="{% if request.path == '/' %}active{% endif %}">📊 Dashboard</a>
+        <a href="/profile">👤 Profile</a>    <a href="/questionnaire">📝 Skin Test</a>
+    <a href="/habits">📋 Track Daily Skin Habits</a>
+    <a href="/skin_pattern">📊 Skin Pattern Tracker</a>
+    <a href="/view_skin_data">📈 View Skin Data</a>
+    <a href="/upload_skin">📷 Upload Skin Image</a>
+    <a href="/acne_detect">🔴 Acne Severity Detector</a>
+</div>
+<div class="sidebar-bottom">
+    <a href="/logout">🚪 Logout</a>
+</div>
+
+</div>
+{% endif %}<!-- HERO IMAGE -->
+<section class="hero">
+    {% if user %}
+    <video autoplay muted loop playsinline class="video-bg">
+    <source src="{{ url_for('static', filename='videos/dashboard_bg.mp4') }}" type="video/mp4">
+</video>
+    {% endif %}
+    {% if not user %}
+        <style>
+            .hero {
+                background-image: url("{{ url_for('static', filename='images/hero-bg.jpeg') }}");
+            }
+        </style>
+    {% endif %}
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1>Smart Skincare and Timeless Glow</h1>
+        <p>Discover your skin type based on your daily habits and get personalized recommendations for healthier skin.</p>
+        {% if not user %}
+        <a href="/register">Register</a>
+        <a href="/login">Login</a>
+        {% endif %}
+    </div>{% if user %}
+<!-- Dashboard over Hero with white background -->
+<div class="dashboard-overlay" style="background:rgba(255,255,255,0.3); border-radius:12px; padding:40px; box-shadow:0 10px 25px rgba(0,0,0,0.1); margin-top:-50px;">
+    <h2>Your Skin Progress</h2>
+    <div class="dashboard-cards">
+        <div class="dashboard-card">
+            <h3>Total Entries</h3>
+            <p>{{ total_entries or 0 }}</p>
+        </div>
+        <div class="dashboard-card">
+            <h3>Average Sleep</h3>
+            <p>{{ avg_sleep or 0 }} hrs</p>
+        </div>
+        <div class="dashboard-card">
+            <h3>Average Water</h3>
+            <p>{{ avg_water or 0 }} L</p>
+        </div>
+        <div class="dashboard-card">
+            <h3>Average Pimples</h3>
+            <p>{{ avg_pimples or 0 }}</p>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+</section><!-- HOW IT WORKS SECTION --><section class="how-it-works">
+    <h2>How It Works</h2>
+    <div class="steps">
+        <div class="step">
+            <h3>1. Create Account</h3>
+            <p>Register and log in to begin tracking your skincare habits.</p>
+        </div>
+        <div class="step">
+            <h3>2. Track Daily Habits</h3>
+            <p>Record sleep, water intake, and daily skincare routines.</p>
+        </div>
+        <div class="step">
+            <h3>3. Analyze Skin</h3>
+            <p>Upload skin images and monitor patterns with smart analysis.</p>
+        </div>
+    </div>
+</section>
+<!-- FEATURES SECTION --><section class="features">
+    <div class="feature">
+        <img src="https://images.unsplash.com/photo-1605902711622-cfb43c4438a5?auto=format&fit=crop&w=200&q=80">
+        <h3>Sleep Well</h3>
+        <p>Better sleep improves your skin's glow and repair.</p>
+    </div>
+    <div class="feature">
+        <img src="https://images.unsplash.com/photo-1588776814546-40d4eaf43349?auto=format&fit=crop&w=200&q=80">
+        <h3>Hydration</h3>
+        <p>Drink enough water daily to keep skin hydrated.</p>
+    </div>
+    <div class="feature">
+        <img src="https://images.unsplash.com/photo-1590561863625-2ad6e9245d4d?auto=format&fit=crop&w=200&q=80">
+        <h3>Skincare Routine</h3>
+        <p>Follow a simple daily routine to maintain healthy skin.</p>
+    </div>
+</section><!-- ABOUT SECTION --><section class="about">
+    <h2>About Our Platform</h2>
+    <p>This platform helps users understand their skin health through daily habit tracking,
+        skin analysis, and personalized skincare recommendations.</p>
+</section><!-- CONTACT SECTION --><section class="contact">
+    <h2>Contact</h2>
+    <p>Email: smartskincare@gmail.com</p>
+    <p>We welcome feedback and suggestions.</p>
+</section><!-- FOOTER --><footer>
+    <a href="/privacy_policy">Privacy Policy</a>
+    <a href="/terms">Terms & Conditions</a></footer>
+
+<style>
+/* ✅ ADDED: Topbar alignment + links */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 10px 30px;
+}
+
+.top-links {
+    display: flex;
+    gap: 20px;
+    align-items: flex-end;
+}
+
+.top-links a {
+    text-decoration: none;
+    color: #555;
+    font-weight: 500;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.top-links a:hover {
+    color: #ff7f9c;
+}
+</style>
+
+{% if user %}
+
+<!-- CHATBOT BUTTON -->
+<div id="chatbot-btn" onclick="toggleChatbot()">💬</div>
+
+<!-- CHATBOT BOX -->
+<div id="chatbot-box">
+    <div class="chat-header">
+        <div class="chat-header-left">
+            <div class="chat-avatar">🌸</div>
+            <div>
+                <div class="chat-name">Skin AI Assistant</div>
+                <div class="chat-status"><span class="dot"></span>Online</div>
+            </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+            <span onclick="toggleMute()" id="muteBtn" title="Mute/Unmute">🔊</span>
+            <span onclick="toggleChatbot()" class="chat-close">✖</span>
+        </div>
+    </div>
+
+    <div id="chat-content">
+        <div class="msg-row bot">
+            <div class="msg-avatar">🌸</div>
+            <div class="msg-bubble bot">
+                Hi! 🌸 Ask me about skin types, routines, remedies, or any feature of this app!
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-input-bar">
+        <input type="text" id="userInput" placeholder="Ask something..." onkeypress="handleEnter(event)" />
+        <button class="chat-send-btn" onclick="handleEnter({key:'Enter'})">➤</button>
+    </div>
+</div>
+
+{% endif %}
+
+<style>
+/* ── BUTTON ── */
+#chatbot-btn {
+    position: fixed;
+    right: 20px;
+    bottom: 30px;
+    background: linear-gradient(135deg, #ff6a4d, #ff8c6e);
+    color: white;
+    font-size: 22px;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(255,106,77,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+    z-index: 999;
+}
+#chatbot-btn:hover { transform: scale(1.08); }
+
+/* ── BOX ── */
+#chatbot-box {
+    position: fixed;
+    right: 20px;
+    bottom: 95px;
+    width: 320px;
+    background: #fff;
+    border-radius: 18px;
+    display: none;
+    box-shadow: 0 8px 32px rgba(255,106,77,0.18);
+    overflow: hidden;
+    z-index: 998;
+    font-family: 'Montserrat', sans-serif;
+    animation: popUp 0.25s ease;
+}
+@keyframes popUp {
+    from { opacity: 0; transform: translateY(16px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── HEADER ── */
+.chat-header {
+    background: linear-gradient(135deg, #ff6a4d, #ff8c6e);
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.chat-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.chat-avatar {
+    width: 36px;
+    height: 36px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+.chat-name {
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.88rem;
+}
+.chat-status {
+    color: rgba(255,255,255,0.85);
+    font-size: 0.68rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 2px;
+}
+.dot {
+    width: 6px;
+    height: 6px;
+    background: #a8ffcc;
+    border-radius: 50%;
+    display: inline-block;
+}
+.chat-close {
+    color: rgba(255,255,255,0.85);
+    cursor: pointer;
+    font-size: 14px;
+    transition: color 0.2s;
+}
+.chat-close:hover { color: #fff; }
+
+/* ── MUTE BUTTON ── */
+#muteBtn {
+    color: rgba(255,255,255,0.85);
+    cursor: pointer;
+    font-size: 14px;
+    transition: color 0.2s;
+}
+#muteBtn:hover { color: #fff; }
+
+/* ── CHIPS ── */
+.chips-row {
+    display: flex;
+    gap: 6px;
+    padding: 8px 12px;
+    overflow-x: auto;
+    background: #fff8f7;
+    border-bottom: 1px solid #ffe5df;
+    scrollbar-width: none;
+}
+.chips-row::-webkit-scrollbar { display: none; }
+.chip-btn {
+    flex-shrink: 0;
+    background: #fff;
+    border: 1.5px solid #ff6a4d;
+    color: #ff6a4d;
+    border-radius: 20px;
+    padding: 4px 11px;
+    font-size: 0.7rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+.chip-btn:hover { background: #ff6a4d; color: #fff; }
+
+/* ── CHAT CONTENT ── */
+#chat-content {
+    padding: 12px;
+    height: 280px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #fffaf9;
+    scroll-behavior: smooth;
+}
+#chat-content::-webkit-scrollbar { width: 3px; }
+#chat-content::-webkit-scrollbar-thumb { background: #ffcfc7; border-radius: 10px; }
+
+/* ── BUBBLES ── */
+.msg-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 7px;
+}
+.msg-row.user { flex-direction: row-reverse; }
+
+.msg-avatar {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff6a4d, #ff8c6e);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.msg-bubble {
+    max-width: 82%;
+    padding: 9px 13px;
+    border-radius: 16px;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    word-break: break-word;
+}
+.msg-bubble.bot {
+    background: #fff;
+    color: #3a1e14;
+    border: 1px solid #ffe5df;
+    border-bottom-left-radius: 4px;
+    box-shadow: 0 1px 4px rgba(255,106,77,0.07);
+}
+.msg-bubble.user {
+    background: linear-gradient(135deg, #ff6a4d, #ff8c6e);
+    color: #fff;
+    border-bottom-right-radius: 4px;
+}
+.msg-bubble ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.msg-bubble ul li::before { content: "✦ "; color: #ff6a4d; font-size: 0.65rem; }
+.msg-bubble ul li { font-size: 0.78rem; }
+.msg-bubble p { margin-bottom: 3px; }
+
+/* ── INPUT ── */
+.chat-input-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border-top: 1px solid #ffe5df;
+    background: #fff;
+}
+.chat-input-bar input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8rem;
+    color: #333;
+    background: transparent;
+}
+.chat-input-bar input::placeholder { color: #ccc; }
+.chat-send-btn {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff6a4d, #ff8c6e);
+    border: none;
+    color: #fff;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(255,106,77,0.35);
+    transition: transform 0.15s;
+}
+.chat-send-btn:hover { transform: scale(1.08); }
+</style>
+
+<script>
+function toggleChatbot() {
+    let box = document.getElementById("chatbot-box");
+    box.style.display = box.style.display === "block" ? "none" : "block";
+}
+
+function quickAsk(text) {
+    document.getElementById("userInput").value = text;
+    handleEnter({ key: "Enter" });
+}
+
+/* ── MUTE ── */
+let isMuted = false;
+function toggleMute() {
+    isMuted = !isMuted;
+    document.getElementById("muteBtn").textContent = isMuted ? "🔇" : "🔊";
+    if (isMuted) speechSynthesis.cancel();
+}
+
+/* ── TEXT TO SPEECH ── */
+function speakReply(text) {
+    if (isMuted) return;
+    const clean = text
+    .replace(/<[^>]*>/g, '')
+    .replace(/✦/g, '')
+    .replace(/[\u{1F000}-\u{1FFFF}]/gu, '')
+    .replace(/[\u{2600}-\u{27BF}]/gu, '')
+    .replace(/[\u{1F300}-\u{1F9FF}]/gu, '')
+    .trim();
+    const speech = new SpeechSynthesisUtterance(clean);
+    speech.lang = "en-US";
+    speech.rate = 1;
+    speech.pitch = 1.1;
+
+    const setVoiceAndSpeak = () => {
+        const voices = speechSynthesis.getVoices();
+        const femaleVoice = voices.find(v =>
+            v.name.includes("Samantha") || v.name.includes("Zira") ||
+            v.name.includes("Google US English") || v.name.includes("Female")
+        );
+        if (femaleVoice) speech.voice = femaleVoice;
+        speechSynthesis.cancel();
+        speechSynthesis.speak(speech);
+    };
+
+    if (speechSynthesis.getVoices().length === 0) {
+        speechSynthesis.onvoiceschanged = setVoiceAndSpeak;
+    } else {
+        setVoiceAndSpeak();
+    }
+}
+
+function handleEnter(e) {
+    if (e.key === "Enter") {
+        let input = document.getElementById("userInput");
+        let msg = input.value.trim();
+        let chat = document.getElementById("chat-content");
+
+        if (!msg) return;
+
+        chat.innerHTML += `
+            <div class="msg-row user">
+                <div class="msg-bubble user">${msg}</div>
+            </div>`;
+
+        let reply = "";
+        const m = msg.toLowerCase();
+
+        const responses = [
+            { keys: ["hello", "hi", "hey"],        ans: "Hi there! 😊 Ask me about skin types, routines, natural remedies, or how to use this app!" },
+            { keys: ["oily"],                       ans: "Oily skin looks shiny with visible pores. 💡 Use oil-free products, foaming cleanser, niacinamide serum, and matte sunscreen." },
+            { keys: ["dry"],                        ans: "Dry skin feels tight and flaky. 💡 Use Cetaphil or Nivea cream, gentle cleanser, and SPF. Apply coconut oil or honey mask at night. 🍯" },
+            { keys: ["combination"],                ans: "Combination skin is oily on T-zone and dry on cheeks. 💡 Use mild cleanser, gel moisturizer, and multani mitti only on oily areas." },
+            { keys: ["sensitive"],                  ans: "Sensitive skin reacts easily — redness or itching. 💡 Use fragrance-free products and avoid alcohol-based toners." },
+            { keys: ["normal"],                     ans: "Normal skin is balanced! 💡 Simple routine: gentle face wash, light moisturizer, and sunscreen daily. 🌟" },
+            { keys: ["skin type", "my skin"],       ans: "Not sure about your skin type? Use the Questionnaire or upload your photo — the app detects it automatically! 🧴" },
+            { keys: ["acne", "pimple"],             ans: "For acne: wash face twice daily, use niacinamide, avoid touching your face, and reduce oily food. Apply aloe vera gel at night. 🌱" },
+            { keys: ["blackhead"],                  ans: "Blackheads are clogged pores. 💡 Use salicylic acid cleanser and try a multani mitti pack weekly." },
+            { keys: ["routine", "daily"],           ans: "🌅 Morning: Cleanser → Moisturizer → Sunscreen\n🌙 Night: Cleanser → Serum → Moisturizer\nOily: gel products. Dry: rich creams." },
+            { keys: ["sunscreen", "spf"],           ans: "Sunscreen is the most important step! Use SPF 30+ every morning — even on cloudy days. ☀️" },
+            { keys: ["moisturizer"],                ans: "Even oily skin needs moisturizer! Gel-based for oily, cream-based for dry skin. Apply twice daily. 💧" },
+            { keys: ["cleanser", "face wash"],      ans: "Use a gentle cleanser twice a day. Foaming/gel for oily skin, cream/milk for dry skin." },
+            { keys: ["natural", "remedy", "home"],  ans: "🌿 Oily: aloe vera, multani mitti, rose water\nDry: honey mask, coconut oil, malai\nAll: papaya face pack, beetroot juice" },
+            { keys: ["aloe"],                       ans: "Aloe vera soothes and hydrates all skin types! Apply fresh gel at night and wash off in the morning. 🌱" },
+            { keys: ["honey"],                      ans: "Honey is antibacterial — great for acne and dry skin! Apply as a face mask for 15 minutes weekly. 🍯" },
+            { keys: ["turmeric"],                   ans: "Turmeric + yogurt mask brightens skin and reduces redness. Use in small amounts occasionally. ✨" },
+            { keys: ["product"],                    ans: "💊 Oily: Clean & Clear, Niacinamide, Matte Sunscreen\nDry: Cetaphil, Nivea, Vaseline\nNormal: Simple Face Wash, Pond's Moisturizer" },
+            { keys: ["yoga"],                       ans: "🧘 Oily: Kapalbhati, Surya Namaskar\nDry: Anulom Vilom, Child Pose\nCombination: Twisting Pose, Bridge Pose\nNormal: Meditation" },
+            { keys: ["sleep"],                      ans: "Aim for 7–8 hours of sleep! Poor sleep increases pimples and dullness. Track your sleep in the Skin Pattern Tracker. 😴" },
+            { keys: ["water"],                      ans: "Drink 6–8 glasses of water daily! Keeps skin plump and flushes toxins. Track it in the Habits Tracker. 💧" },
+            { keys: ["diet", "food"],               ans: "Reduce oily and sugary food to control acne. Eat more fruits and vegetables for glowing skin. 🥗" },
+            { keys: ["questionnaire"],              ans: "The Questionnaire detects your skin type from your answers and gives a personalized routine, products, and yoga tips! 📋" },
+            { keys: ["upload", "image", "photo"],   ans: "Go to Image Upload — the ML model detects your skin type from your face photo and shows a care kit! 📸" },
+            { keys: ["tracker", "pattern", "log"],  ans: "The Skin Pattern Tracker logs your daily pimples, sleep, and water intake and shows monthly progress charts! 📊" },
+            { keys: ["habit"],                      ans: "Habits Tracker scores: 6+ water💧+2, Sunscreen☀️+2, Cleanser🧴+2, Good sleep😴+2. Score 7+: Excellent! 💯" },
+            { keys: ["progress", "graph", "chart"], ans: "Go to View Skin Data to see your progress charts for sleep, water, and pimples over time! 📈" },
+            { keys: ["feedback"],                   ans: "Submit product ratings and feedback on the Feedback page. Your opinion helps improve the app! ⭐" },
+            { keys: ["profile"],                    ans: "Edit your username and email in the Profile section. You can also delete your account from there. 👤" },
+            { keys: ["password"],                   ans: "Forgot your password? Go to Reset Password, enter your username, and set a new one. No email needed! 🔑" },
+            { keys: ["login", "register", "sign"],  ans: "New user? Register at /register. Already have an account? Login at /login. 👤" },
+            { keys: ["tips"],                       ans: "💡 Drink 8 glasses of water, sleep 7–8 hours, apply sunscreen daily, and cleanse twice a day!" },
+            { keys: ["about", "app", "feature"],    ans: "Skin AI detects your skin type and gives personalized routines, remedies, product tips, yoga, and habit tracking! 🌸" },
+            { keys: ["machine learning", "ml", "model"],    ans: "The app uses a Machine Learning model (sklearn) trained on skin data. It predicts your skin type as Oily, Dry, Combination, or Normal based on your uploaded face photo! 🤖" },
+{ keys: ["opencv", "image detection", "detect"], ans: "OpenCV is used to process your uploaded face photo. It first checks if the image contains skin, then passes it to the ML model for skin type prediction! 👁️" },
+{ keys: ["algorithm", "how it works"],           ans: "The skin detection works in 2 steps:\n💡 Step 1: OpenCV checks if the image has skin\n💡 Step 2: ML model (sklearn) predicts your skin type from the image features! 🤖" },
+{ keys: ["sqlite", "database", "db"],            ans: "The app uses SQLite as its database. It stores user accounts, skin pattern logs, habit tracker data, and feedback — all locally on the server! 🗄️" },
+{ keys: ["flask", "backend", "server"],          ans: "The backend is built with Python Flask. It handles all routes like /questionnaire, /upload_skin, /habits, /skin_pattern and connects the frontend to the database and ML model! 🐍" },
+{ keys: ["python"],                              ans: "The entire backend is written in Python! It uses Flask for the web server, sklearn for machine learning, OpenCV for image processing, and SQLite for the database. 🐍" },
+{ keys: ["scikit learn", "scikit"],                   ans: "The app uses scikit-learn (sklearn) to train and run the ML model that predicts skin type from uploaded images. The model is saved as skin_model.pkl! 🤖" },
+{ keys: ["pkl", "skin_model"],                   ans: "skin_model.pkl is the saved Machine Learning model file. When you upload a photo, Flask loads this model and uses it to predict your skin type instantly! 📦" },
+{ keys: ["accuracy", "how accurate"],            ans: "The ML model predicts skin type based on image features extracted by OpenCV. Accuracy improves with better lighting and a clear face photo! 📸" },
+{ keys: ["technology", "tech stack", "built with"], ans: "Tech stack:\n💡 Python & Flask — backend\n💡 SQLite — database\n💡 sklearn — machine learning\n💡 OpenCV — image processing\n💡 HTML & CSS — frontend" },         
+            { keys: ["thank"],                      ans: "You're welcome! 😊 Feel free to ask anything else. Take care of your skin! 🌸" },
+            { keys: ["bye", "goodbye"],             ans: "bye! 👋 Remember to follow your skincare routine daily. Take care! 🌸" },
+        ];
+
+        for (let r of responses) {
+            if (r.keys.some(k => m.includes(k))) { reply = r.ans; break; }
+        }
+
+        const bulletStarters = ['•','-','✅','💡','🌿','🧘','📋','📸','📊','💊','☀️','💧','😴','🥗','⭐','👤','🔑','💯','📈','🌸','🌱','🍯','✨'];
+
+        function formatBubble(text) {
+            const lines = text.split('\n');
+            let html = '';
+            let inList = false;
+            lines.forEach(line => {
+                line = line.trim();
+                if (!line) return;
+                const isBullet = bulletStarters.some(b => line.startsWith(b));
+                if (isBullet) {
+                    if (!inList) { html += '<ul>'; inList = true; }
+                    html += '<li>' + line.replace(/^[•\-]\s*/,'') + '</li>';
+                } else {
+                    if (inList) { html += '</ul>'; inList = false; }
+                    html += '<p>' + line + '</p>';
+                }
+            });
+            if (inList) html += '</ul>';
+            return html;
+        }
+
+        if (reply) {
+            // keyword matched — show instantly
+            let bubbleHtml = formatBubble(reply);
+            chat.innerHTML += `
+                <div class="msg-row bot">
+                    <div class="msg-avatar">🌸</div>
+                    <div class="msg-bubble bot">${bubbleHtml}</div>
+                </div>`;
+            speakReply(reply);
+            chat.scrollTop = chat.scrollHeight;
+
+        } else {
+            // No keyword — ask Groq AI
+            chat.innerHTML += `
+                <div class="msg-row bot" id="thinking-bubble">
+                    <div class="msg-avatar">🌸</div>
+                    <div class="msg-bubble bot"><i>Thinking...</i></div>
+                </div>`;
+            chat.scrollTop = chat.scrollHeight;
+
+            fetch('/groq_chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: msg })
+            })
+            .then(res => res.json())
+            .then(data => {
+                const thinking = document.getElementById('thinking-bubble');
+                if (thinking) thinking.remove();
+
+                const aiReply = data.reply;
+                chat.innerHTML += `
+                    <div class="msg-row bot">
+                        <div class="msg-avatar">🌸</div>
+                        <div class="msg-bubble bot"><p>${aiReply.replace(/\n/g, '<br>')}</p></div>
+                    </div>`;
+                speakReply(aiReply);
+                chat.scrollTop = chat.scrollHeight;
+            })
+            .catch(() => {
+                const thinking = document.getElementById('thinking-bubble');
+                if (thinking) thinking.remove();
+                chat.innerHTML += `
+                    <div class="msg-row bot">
+                        <div class="msg-avatar">🌸</div>
+                        <div class="msg-bubble bot"><p>Sorry, I could not connect right now! 😔</p></div>
+                    </div>`;
+            });
+        }
+
+        input.value = "";
+    }
+}
+</script>
+
+<script>
+function speakWelcome(){
+
+    const text = "Welcome to Smart Skin AI dashboard. Your personal skin habit intelligence system is ready.";
+
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.lang = "en-US";
+    speech.rate = 1;
+    speech.pitch = 1.1;
+
+    function setFemaleVoice() {
+        let voices = speechSynthesis.getVoices();
+        for(let i=0;i<voices.length;i++){
+            let name = voices[i].name.toLowerCase();
+            if(
+                name.includes("zira") ||
+                name.includes("samantha") ||
+                name.includes("female") ||
+                name.includes("google us english") ||
+                name.includes("woman")
+            ){
+                speech.voice = voices[i];
+                break;
+            }
+        }
+        speechSynthesis.speak(speech);
+    }
+
+    if(speechSynthesis.getVoices().length === 0){
+        speechSynthesis.onvoiceschanged = setFemaleVoice;
+    } else {
+        setFemaleVoice();
+    }
+}
+
+{% if user %}
+window.onload = function(){
+    if(!sessionStorage.getItem("welcomeSpoken")){
+        speakWelcome();
+        sessionStorage.setItem("welcomeSpoken", "true");
+    }
+};
+{% endif %}
+
+window.addEventListener("beforeunload", function(){
+    speechSynthesis.cancel();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acne Analysis Result</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #000;
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #bg-video {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            object-fit: cover;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: -1;
+        }
+
+        .result-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+            width: 90%;
+            max-width: 650px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .result-box::-webkit-scrollbar { width: 4px; }
+        .result-box::-webkit-scrollbar-thumb { background: #ff6a4d; border-radius: 10px; }
+
+        h2 { font-size: 1rem; color: #ffcfc7; margin-bottom: 6px; }
+
+        .severity-badge {
+            display: inline-block;
+            padding: 10px 30px;
+            border-radius: 30px;
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 10px 0;
+            text-shadow: none;
+        }
+
+        .confidence {
+            font-size: 0.82rem;
+            color: #ffcfc7;
+            margin-bottom: 14px;
+        }
+
+        .description {
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 18px 20px;
+            margin-bottom: 14px;
+            text-align: left;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .card h3 {
+            font-size: 0.9rem;
+            color: #ff8c6e;
+            margin-bottom: 10px;
+        }
+
+        .card ul {
+            padding-left: 18px;
+            font-size: 0.85rem;
+            line-height: 1.8;
+        }
+
+        .card ul li { margin-bottom: 4px; }
+
+        .doctor-alert {
+            background: rgba(192,57,43,0.4);
+            border: 1.5px solid #e74c3c;
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin-bottom: 14px;
+            font-size: 0.88rem;
+            color: #fff;
+        }
+
+        .doctor-alert strong { color: #ff8c6e; }
+
+        .btn-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: opacity 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff6a4d, #ff8c6e);
+            color: #fff;
+        }
+
+        .btn-outline {
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+            border: 1.5px solid rgba(255,255,255,0.4);
+        }
+
+        .btn:hover { opacity: 0.85; }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<video autoplay muted loop playsinline id="bg-video">
+    <source src="{{ url_for('static', filename='videos/result_bg.mp4') }}" type="video/mp4">
+</video>
+
+<div class="result-box" id="resultText">
+
+    <h2>🔬 Acne Severity Analysis</h2>
+
+    <div class="severity-badge" style="background: {{ result.color }}20; border: 2px solid {{ result.color }}; color: {{ result.color }};">
+        {{ result.severity }} Acne
+    </div>
+
+    <div class="confidence">
+        AI Confidence: {{ result.confidence }}% &nbsp;|&nbsp; Powered by Deep Learning (TensorFlow)
+    </div>
+
+    <p class="description">{{ result.description }}</p>
+
+    {% if result.see_doctor %}
+    <div class="doctor-alert">
+        ⚠️ <strong>Consult a Dermatologist:</strong> Your acne appears severe. We strongly recommend seeing a skin specialist for proper diagnosis and treatment.
+    </div>
+    {% endif %}
+
+    <div class="card">
+        <h3>💡 Skincare Tips for {{ result.severity }} Acne</h3>
+        <ul>
+            {% for tip in result.tips %}
+            <li>{{ tip }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="card">
+        <h3>🛍️ Recommended Products</h3>
+        <ul>
+            {% for product in result.products %}
+            <li>{{ product }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="card">
+        <h3>📊 Track Your Progress</h3>
+        <ul>
+            <li>Log daily pimples in the <a href="/skin_pattern" style="color:#ff8c6e;">Skin Pattern Tracker</a></li>
+            <li>Track your water, sleep & habits in the <a href="/habits" style="color:#ff8c6e;">Habits Tracker</a></li>
+            <li>Re-scan after 2 weeks to monitor improvement</li>
+        </ul>
+    </div>
+
+    <div class="btn-row">
+        <a href="/acne_detect" class="btn btn-outline" onclick="stopSpeech()">🔄 Scan Again</a>
+        <a href="/skin_pattern" class="btn btn-primary" onclick="stopSpeech()">📊 Track My Skin</a>
+        <a href="/" class="btn btn-outline" onclick="stopSpeech()">🏠 Home</a>
+    </div>
+
+</div>
+
+<script>
+function speakResult() {
+    let severity = "{{ result.severity }}";
+    let description = "{{ result.description }}";
+    let text = "Acne Severity Analysis complete. You have " + severity + " acne. " + description;
+
+    let speech = new SpeechSynthesisUtterance(text);
+    speech.lang = "en-US";
+    speech.rate = 1;
+    speech.pitch = 1.1;
+
+    let voices = window.speechSynthesis.getVoices();
+    let femaleVoice = voices.find(v =>
+        v.lang === "en-US" && (
+            v.name.includes("Zira") ||
+            v.name.includes("Female") ||
+            v.name.includes("Google") ||
+            v.name.includes("Samantha")
+        )
+    );
+    if (femaleVoice) speech.voice = femaleVoice;
+    window.speechSynthesis.speak(speech);
+}
+
+window.speechSynthesis.onvoiceschanged = speakResult;
+
+function stopSpeech() {
+    window.speechSynthesis.cancel();
+}
+</script>
+
+</body>
+</html>

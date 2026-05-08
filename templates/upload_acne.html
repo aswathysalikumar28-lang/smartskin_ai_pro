@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acne Severity Detector</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #fdf6f0 0%, #fde8e8 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(255,106,77,0.15);
+            padding: 50px 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .icon {
+            font-size: 52px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            color: #ff6a4d;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #999;
+            font-size: 0.85rem;
+            margin-bottom: 32px;
+        }
+
+        .upload-area {
+            border: 2.5px dashed #ffcfc7;
+            border-radius: 16px;
+            padding: 40px 20px;
+            margin-bottom: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #fffaf9;
+            position: relative;
+        }
+
+        .upload-area:hover {
+            border-color: #ff6a4d;
+            background: #fff5f3;
+        }
+
+        .upload-area input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+
+        .upload-icon { font-size: 40px; margin-bottom: 12px; }
+
+        .upload-text {
+            color: #aaa;
+            font-size: 0.85rem;
+        }
+
+        #preview {
+            display: none;
+            width: 120px;
+            height: 120px;
+            border-radius: 12px;
+            object-fit: cover;
+            margin: 12px auto 0;
+            border: 3px solid #ff6a4d;
+        }
+
+        .info-box {
+            background: #fff8f7;
+            border: 1px solid #ffe0da;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            text-align: left;
+            font-size: 0.82rem;
+            color: #666;
+        }
+
+        .info-box ul { padding-left: 18px; }
+        .info-box ul li { margin-bottom: 5px; }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #ff6a4d, #ff8c6e);
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.15s;
+            box-shadow: 0 4px 16px rgba(255,106,77,0.35);
+        }
+
+        .submit-btn:hover { opacity: 0.9; transform: translateY(-2px); }
+
+        {% if error %}
+        .error-msg {
+            background: #ffe5e5;
+            color: #cc0000;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 0.85rem;
+        }
+        {% endif %}
+
+        .back-link {
+            margin-top: 20px;
+            color: #ff6a4d;
+            text-decoration: none;
+            font-size: 0.82rem;
+            display: block;
+        }
+        .back-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="icon">🔬</div>
+    <h1>Acne Severity Detector</h1>
+    <p class="subtitle">Upload a clear face photo — our Deep Learning AI will analyze your acne severity</p>
+
+    {% if error %}
+    <div class="error-msg">⚠️ {{ error }}</div>
+    {% endif %}
+
+    <form action="/acne_detect" method="POST" enctype="multipart/form-data">
+
+        <div class="upload-area" onclick="document.getElementById('acneImage').click()">
+            <input type="file" name="acne_image" id="acneImage" accept="image/*" required onchange="previewImage(event)">
+            <div class="upload-icon">📸</div>
+            <div class="upload-text">Click to upload or drag & drop<br>JPG, PNG supported</div>
+            <img id="preview" src="" alt="Preview">
+        </div>
+
+        <div class="info-box">
+            <strong>📋 Tips for best results:</strong>
+            <ul>
+                <li>Use good lighting — natural light works best</li>
+                <li>Take a close-up photo of the affected area</li>
+                <li>Avoid filters or heavy editing</li>
+                <li>Clean face before taking the photo</li>
+            </ul>
+        </div>
+
+        <button type="submit" class="submit-btn">🔍 Analyze Acne Severity</button>
+    </form>
+
+    <a href="/" class="back-link">← Back to Home</a>
+</div>
+
+<script>
+function previewImage(event) {
+    const preview = document.getElementById('preview');
+    const file = event.target.files[0];
+    if (file) {
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = 'block';
+        document.querySelector('.upload-icon').style.display = 'none';
+        document.querySelector('.upload-text').style.display = 'none';
+    }
+}
+</script>
+
+</body>
+</html>

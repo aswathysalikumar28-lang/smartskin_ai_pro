@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skin AI Chatbot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(160deg, #fff0f3 0%, #fde8d8 50%, #fdf6f0 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 36px 16px 50px;
+        }
+
+        /* ── TOP HEADER ── */
+        .top-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .top-header .avatar {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #b5485a, #e8849a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 12px;
+            box-shadow: 0 4px 16px rgba(181,72,90,0.3);
+        }
+        .top-header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #b5485a;
+        }
+        .top-header p {
+            color: #aaa;
+            font-size: 0.82rem;
+            margin-top: 5px;
+        }
+        .online-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #4caf50;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        /* ── CHAT WINDOW ── */
+        #chat-box {
+            width: 100%;
+            max-width: 680px;
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 8px 40px rgba(181,72,90,0.13);
+            padding: 24px 20px;
+            height: 460px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 16px;
+            scroll-behavior: smooth;
+        }
+
+        #chat-box::-webkit-scrollbar { width: 4px; }
+        #chat-box::-webkit-scrollbar-thumb { background: #f0c0cb; border-radius: 10px; }
+
+        /* ── BUBBLE WRAPPER ── */
+        .bubble-row {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+        }
+        .bubble-row.user { flex-direction: row-reverse; }
+
+        .bot-icon {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            background: linear-gradient(135deg, #b5485a, #e8849a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            box-shadow: 0 2px 8px rgba(181,72,90,0.2);
+        }
+
+        /* ── BUBBLES ── */
+        .bubble {
+            max-width: 75%;
+            padding: 13px 17px;
+            border-radius: 20px;
+            font-size: 0.87rem;
+            line-height: 1.7;
+            word-break: break-word;
+        }
+
+        .bubble.bot {
+            background: #fdf0f3;
+            color: #3a1e26;
+            border-bottom-left-radius: 5px;
+            border: 1px solid #f5d5db;
+        }
+
+        .bubble.user {
+            background: linear-gradient(135deg, #b5485a, #d4667a);
+            color: #fff;
+            border-bottom-right-radius: 5px;
+        }
+
+        /* clean list inside bot bubble */
+        .bubble.bot ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .bubble.bot ul li::before {
+            content: "🌸 ";
+        }
+        .bubble.bot ul li {
+            font-size: 0.85rem;
+        }
+        .bubble.bot p { margin-bottom: 4px; }
+        .bubble.bot strong { color: #b5485a; }
+
+        /* sender name */
+        .sender-name {
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: #ccc;
+            margin-bottom: 3px;
+            padding: 0 4px;
+        }
+        .bubble-col { display: flex; flex-direction: column; }
+        .bubble-col.user { align-items: flex-end; }
+        .bubble-col.bot  { align-items: flex-start; }
+
+        /* ── SUGGESTIONS ── */
+        .suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            max-width: 680px;
+            margin-bottom: 14px;
+            justify-content: center;
+        }
+        .suggestion-btn {
+            background: #fff;
+            border: 1.5px solid #e8849a;
+            color: #b5485a;
+            border-radius: 20px;
+            padding: 7px 15px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.76rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 6px rgba(181,72,90,0.08);
+        }
+        .suggestion-btn:hover {
+            background: linear-gradient(135deg, #b5485a, #d4667a);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        /* ── INPUT ROW ── */
+        .input-row {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            max-width: 680px;
+            background: #fff;
+            padding: 10px 12px;
+            border-radius: 40px;
+            box-shadow: 0 4px 20px rgba(181,72,90,0.1);
+        }
+        .input-row input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.87rem;
+            color: #333;
+            background: transparent;
+            padding: 4px 8px;
+        }
+        .input-row input::placeholder { color: #ccc; }
+        .input-row button {
+            padding: 10px 22px;
+            background: linear-gradient(135deg, #b5485a, #d4667a);
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            white-space: nowrap;
+        }
+        .input-row button:hover { opacity: 0.85; }
+
+        .back-link {
+            margin-top: 20px;
+            color: #b5485a;
+            text-decoration: none;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        .back-link:hover { opacity: 1; text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="top-header">
+    <div class="avatar">🌸</div>
+    <h1>Skin AI Assistant</h1>
+    <p><span class="online-dot"></span>Always here to help your skin!</p>
+</div>
+
+<!-- CHAT WINDOW -->
+<div id="chat-box">
+
+    <!-- Welcome bubble -->
+    <div class="bubble-row bot">
+        <div class="bot-icon">🌸</div>
+        <div class="bubble-col bot">
+            <span class="sender-name">Skin AI</span>
+            <div class="bubble bot" id="welcome-bubble">
+                Hi there! 👋 I'm your personal Skin AI assistant.<br><br>
+                I can help you with:
+                <ul>
+                    <li>Skin types — oily, dry, combination, sensitive</li>
+                    <li>Daily skincare routines</li>
+                    <li>Natural home remedies</li>
+                    <li>Product recommendations</li>
+                    <li>App features — questionnaire, image upload, tracker</li>
+                    <li>Yoga &amp; wellness tips</li>
+                </ul>
+                <br>What would you like to know? 😊
+            </div>
+        </div>
+    </div>
+
+    {% if reply %}
+    <!-- User bubble -->
+    <div class="bubble-row user">
+        <div class="bubble-col user">
+            <span class="sender-name">You</span>
+            <div class="bubble user">{{ request.form.get('message', '') }}</div>
+        </div>
+    </div>
+
+    <!-- Bot reply bubble -->
+    <div class="bubble-row bot">
+        <div class="bot-icon">🌸</div>
+        <div class="bubble-col bot">
+            <span class="sender-name">Skin AI</span>
+            <div class="bubble bot" id="bot-reply">{{ reply }}</div>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
+<!-- QUICK SUGGESTIONS -->
+<div class="suggestions">
+    <button class="suggestion-btn" onclick="suggest('oily skin')">✨ Oily skin</button>
+    <button class="suggestion-btn" onclick="suggest('dry skin')">💧 Dry skin</button>
+    <button class="suggestion-btn" onclick="suggest('daily routine')">🌅 Daily routine</button>
+    <button class="suggestion-btn" onclick="suggest('natural remedy')">🌿 Natural remedies</button>
+    <button class="suggestion-btn" onclick="suggest('acne')">🔴 Acne help</button>
+    <button class="suggestion-btn" onclick="suggest('yoga')">🧘 Yoga tips</button>
+    <button class="suggestion-btn" onclick="suggest('questionnaire')">📋 Questionnaire</button>
+    <button class="suggestion-btn" onclick="suggest('habit tracker')">💯 Habit tracker</button>
+</div>
+
+<!-- INPUT -->
+<form class="input-row" method="POST" action="/chatbot">
+    <input type="text" name="message" placeholder="Ask about your skin..." autocomplete="off" required />
+    <button type="submit">Send ➤</button>
+</form>
+
+<a href="/" class="back-link">← Back to Home</a>
+
+<script>
+    const chatBox = document.getElementById('chat-box');
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    // Format bot reply nicely
+    const botReply = document.getElementById('bot-reply');
+    if (botReply) {
+        let text = botReply.textContent.trim();
+        const lines = text.split('\n');
+        let html = '';
+        let inList = false;
+
+        lines.forEach(line => {
+            line = line.trim();
+            if (!line) return;
+
+            if (line.startsWith('•') || line.startsWith('-') || line.startsWith('✅') || line.startsWith('💡') || line.startsWith('🌿') || line.startsWith('🧘') || line.startsWith('📋') || line.startsWith('📸') || line.startsWith('📊') || line.startsWith('💊') || line.startsWith('☀️') || line.startsWith('💧') || line.startsWith('😴') || line.startsWith('🥗') || line.startsWith('⭐') || line.startsWith('👤') || line.startsWith('🔑') || line.startsWith('💯') || line.startsWith('📈')) {
+                if (!inList) { html += '<ul>'; inList = true; }
+                html += '<li>' + line.replace(/^[•\-]\s*/, '') + '</li>';
+            } else {
+                if (inList) { html += '</ul>'; inList = false; }
+                html += '<p>' + line + '</p>';
+            }
+        });
+
+        if (inList) html += '</ul>';
+        botReply.innerHTML = html;
+    }
+
+    function suggest(text) {
+        document.querySelector('input[name="message"]').value = text;
+        document.querySelector('form').submit();
+    }
+</script>
+</body>
+</html>
