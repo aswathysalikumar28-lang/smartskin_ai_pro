@@ -333,28 +333,85 @@
             margin-right:10px;
         }
 
+        /* ── HAMBURGER BUTTON (hidden on desktop) ── */
+        .hamburger { display: none; }
+
         @media (max-width: 768px) {
-            .hero-content h1 {
-                font-size: 32px;
-            }
-            .hero-content p {
-                font-size: 16px;
-            }
-            .features {
+            body { padding-top: 60px; }
+            .topbar { padding: 0 12px; }
+            .logo { font-size: 14px; }
+            .top-user { font-size: 12px; }
+            .top-links { display: none; }
+
+            .hamburger {
+                display: flex !important;
                 flex-direction: column;
-                align-items: center;
+                gap: 5px;
+                cursor: pointer;
+                padding: 8px;
+                background: none;
+                border: none;
             }
-            .dashboard-overlay {
-                left: 0;
-                width: 100%;
-                padding: 20px;
+            .hamburger span {
+                width: 24px;
+                height: 2px;
+                background: #ff6a4d;
+                border-radius: 2px;
+                display: block;
             }
-            .topbar {
-                padding: 0 15px;
-            }
+
             .sidebar {
-                width: 180px;
+                width: 100%;
+                height: auto;
+                max-height: calc(100vh - 60px);
+                overflow-y: auto;
+                position: fixed;
+                top: 60px;
+                left: -100%;
+                z-index: 1500;
+                transition: left 0.3s ease;
+                flex-direction: column;
             }
+            .sidebar.open { left: 0; }
+
+            .hero { height: auto; min-height: 100vh; }
+            .hero-content { padding: 80px 16px 40px; }
+            .hero-content h1 { font-size: 22px; margin-bottom: 12px; }
+            .hero-content p { font-size: 13px; margin-bottom: 20px; }
+            .hero-content a { padding: 10px 16px; font-size: 13px; }
+
+            .dashboard-overlay {
+                position: relative !important;
+                top: auto !important;
+                left: 0 !important;
+                width: 100% !important;
+                padding: 16px !important;
+                margin-top: 0 !important;
+            }
+            .dashboard-cards { gap: 10px; justify-content: center; }
+            .dashboard-card { width: calc(50% - 8px); min-width: 120px; padding: 14px 8px; }
+            .dashboard-card h3 { font-size: 12px; }
+            .dashboard-card p { font-size: 13px; }
+
+            section { padding: 40px 16px; }
+            .how-it-works h2 { font-size: 20px; }
+            .steps { gap: 20px; flex-direction: column; align-items: center; }
+            .step { max-width: 100%; width: 100%; }
+            .step h3 { font-size: 16px; }
+            .step p { font-size: 13px; }
+
+            .features { flex-direction: column; align-items: center; padding: 30px 16px; }
+            .feature { max-width: 100%; width: 100%; margin: 10px 0; }
+            .feature img { width: 70px; }
+            .feature h3 { font-size: 16px; }
+            .feature p { font-size: 13px; }
+
+            .about h2, .contact h2 { font-size: 20px; }
+            .about p, .contact p { font-size: 13px; }
+
+            #chatbot-box { width: 92vw; right: 4vw; left: 4vw; }
+            #chat-content { height: 200px; }
+            footer { font-size: 12px; }
         }
 .video-bg {
     position: absolute;
@@ -368,7 +425,12 @@
     </style>
 </head>
 <body><!-- TOP NAVBAR --><div class="topbar">
-    <div class="logo">Smart Skin AI</div>
+    <div style="display:flex;align-items:center;gap:12px;">
+        <button class="hamburger" onclick="toggleSidebar()" id="hamburgerBtn">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="logo">Smart Skin AI</div>
+    </div>
 
     <!-- ✅ ADDED: Top Right Links -->
     <div class="top-links">
@@ -990,6 +1052,27 @@ function handleEnter(e) {
         input.value = "";
     }
 }
+</script>
+
+<script>
+function toggleSidebar() {
+    const sidebar = document.querySelector(".sidebar");
+    if (sidebar) sidebar.classList.toggle("open");
+}
+// Close sidebar when clicking outside
+document.addEventListener("click", function(e) {
+    const sidebar = document.querySelector(".sidebar");
+    const btn = document.getElementById("hamburgerBtn");
+    if (sidebar && btn && !sidebar.contains(e.target) && !btn.contains(e.target)) {
+        sidebar.classList.remove("open");
+    }
+});
+// Close sidebar when a link is clicked
+document.querySelectorAll(".sidebar a").forEach(a => {
+    a.addEventListener("click", () => {
+        document.querySelector(".sidebar") && document.querySelector(".sidebar").classList.remove("open");
+    });
+});
 </script>
 
 <script>
